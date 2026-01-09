@@ -35,10 +35,8 @@ public class CodeService {
 
         InMemoryJavaFile sourceFile =
                 new InMemoryJavaFile(classCode, name);
-
         StandardJavaFileManager standardFileManager =
                 compiler.getStandardFileManager(diagnostics, null, null);
-
         InMemoryFileManager fileManager =
                 new InMemoryFileManager(standardFileManager);
 
