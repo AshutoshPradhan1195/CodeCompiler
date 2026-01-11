@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.tools.*;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -65,20 +63,26 @@ public class CodeService {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
 
-        System.setOut(new PrintStream(output));
 
         InMemoryClassLoader classLoader =
                 new InMemoryClassLoader(fileManager.getClassFile());
 
-        Class<?> clazz = classLoader.loadClass(name);
+        try {
+            System.setOut(new PrintStream(output));
 
-        clazz.getMethod("main", String[].class)
-                .invoke(null, (Object) new String[]{});
+            Class<?> clazz = classLoader.loadClass(name);
+            clazz.getMethod("main", String[].class)
+                 .invoke(null, (Object) new String[]{});
 
-        System.setOut(new PrintStream(originalOut));
+        } finally {
+            System.setOut(originalOut);
+        }
 
-        return new CodeCompileResponse(output.toString(), null);
+        CodeCompileResponse response = new CodeCompileResponse();
+        response.setError(null);
+        response.setOutput(output.toString());
 
+        return response;
 
     }
 }

@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    container_name: code-compiler
+    ports:
+      - "8000:8000"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m

@@ -4,9 +4,14 @@ import com.test.codecompiler.Models.CodeCompileRequest;
 import com.test.codecompiler.Models.CodeCompileResponse;
 import com.test.codecompiler.Services.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+
 
 @RestController
 public class CodeController {
@@ -19,17 +24,19 @@ public class CodeController {
     }
 
     @PostMapping("execute")
-    public CodeCompileResponse execute(@RequestBody CodeCompileRequest request) {
+    public ResponseEntity<CodeCompileResponse> execute(@RequestBody CodeCompileRequest request) {
+        ArrayList<String> list = new ArrayList();
+        list.add("s");
+        System.out.println(list.get(0));
         try {
-            return codeService.compile(request);
-        }
-        catch (UnsupportedOperationException e){
-            System.out.println(e.getMessage());
-            return new CodeCompileResponse(null, new String[]{e.getMessage()});
+            CodeCompileResponse response = codeService.compile(request);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
-            return new CodeCompileResponse(null, new String[]{"Something went wrong"});
+            CodeCompileResponse response = new CodeCompileResponse(null, new String[]{"Something went wrong"});
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
 
     };

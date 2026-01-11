@@ -1,18 +1,30 @@
 package com.test.codecompiler.Models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CodeCompileResponse {
-    @Nullable
     private String output;
-    @Nullable
     private String[] error;
+
+    public CodeCompileResponse(String output, String[] error) {
+        this.output = output;
+        this.error = error;
+    }
+
+    public CodeCompileResponse() {}
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    public String[] getError() {
+        return error;
+    }
+
+    public void setError(String[] error) {
+        this.error = error;
+    }
 }
