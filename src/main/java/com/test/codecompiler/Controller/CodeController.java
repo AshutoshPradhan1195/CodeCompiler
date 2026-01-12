@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @RestController
 public class CodeController {
 
-    private CodeService codeService;
+    private final CodeService codeService;
 
     @Autowired
     public CodeController(CodeService codeService) {
@@ -25,9 +25,6 @@ public class CodeController {
 
     @PostMapping("execute")
     public ResponseEntity<CodeCompileResponse> execute(@RequestBody CodeCompileRequest request) {
-        ArrayList<String> list = new ArrayList();
-        list.add("s");
-        System.out.println(list.get(0));
         try {
             CodeCompileResponse response = codeService.compile(request);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -39,5 +36,5 @@ public class CodeController {
 
         }
 
-    };
+    }
 }

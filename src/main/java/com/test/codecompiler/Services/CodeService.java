@@ -14,11 +14,9 @@ import java.util.*;
 
 @Service
 public class CodeService {
-    private final DiagnosticCollector<JavaFileObject> diagnostics;
     private final JavaCompiler compiler;
 
     public CodeService() {
-        this.diagnostics = new DiagnosticCollector<>();
         this.compiler = ToolProvider.getSystemJavaCompiler();
     }
 
@@ -29,6 +27,8 @@ public class CodeService {
 
         InMemoryJavaFile sourceFile =
                 new InMemoryJavaFile(classCode, name);
+
+        DiagnosticCollector<JavaFileObject> diagnostics = new  DiagnosticCollector<>();
         StandardJavaFileManager standardFileManager =
                 compiler.getStandardFileManager(diagnostics, null, null);
         InMemoryFileManager fileManager =
@@ -47,10 +47,12 @@ public class CodeService {
 
 
         if (!success) {
+
             String[] errors = diagnostics.getDiagnostics()
                     .stream()
                     .map(d -> d.getMessage(null))
                     .toArray(String[]::new);
+
 
             return new CodeCompileResponse(null, errors);
         }
