@@ -1,10 +1,5 @@
 package com.test.codecompiler.Models;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
 public class CodeCompileResponse {
     private String output;
     private String[] error;
@@ -15,5 +10,21 @@ public class CodeCompileResponse {
     }
 
     public CodeCompileResponse() {}
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    public String[] getError() {
+        return error;
+    }
+
+    public void setError(String[] error) {
+        this.error = error;
+    }
 
 }
