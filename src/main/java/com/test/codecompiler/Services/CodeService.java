@@ -24,12 +24,8 @@ public class CodeService {
 
     public CodeCompileResponse compile(CodeCompileRequest request) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-        String name = "Main" + UUID.randomUUID().toString().replace("-", "").toLowerCase();
-        String classCode = "public class " + name + " {\n" +
-                           "    public static void main(String[] args) {\n" +
-                           request.getCode() + "\n" +
-                           "    }\n" +
-                           "}";
+        String name = "Main" + request.getName();
+        String classCode = request.getCode();
 
         InMemoryJavaFile sourceFile =
                 new InMemoryJavaFile(classCode, name);
